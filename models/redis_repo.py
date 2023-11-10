@@ -35,7 +35,7 @@ class RedisRepository:
         """Get the value of a field from the key-object"""
         return self.__redis_connection.hget(key, field)
 
-    def hash_delete(self, key: str, field: str):
+    def hash_delete(self, key: str, field: str) -> None:
         """Delete the specific field from the key-object"""
         delete = self.__redis_connection.hdel(key, field)
         if delete == 0:
