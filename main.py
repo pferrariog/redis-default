@@ -1,11 +1,12 @@
 """Commands before your program startup"""
 from config.stationary_data import start_data
-from models.connection.redis_conn import RedisConnectionHandler
-from models.redis_repo import RedisRepository
+from models.redis.connection.redis_conn import RedisConnectionHandler
+from models.redis.redis_repo import RedisRepository
 
 # default connection and object instance
-connection = RedisConnectionHandler().connect()
-redis = RedisRepository(connection)
+redis = RedisConnectionHandler().connect()
+redis_repo = RedisRepository(redis)
 
 # loading current data in redis to start object
-start_data.load(connection.hgetall().decode("utf-8"))
+start_data.load(redis.hgetall().decode("utf-8"))
+

@@ -1,3 +1,5 @@
+from typing import Any
+
 class _StationaryData:
     """Class to manage existent data in redis"""
     def __init__(self) -> None:
@@ -8,12 +10,11 @@ class _StationaryData:
         """Load existent data from redis"""
         self.__cached_data = data
 
-    def get(self, key: str) -> str:
+    def get(self, key: str) -> Any | None:
         """Get a speficic data from redis dictionary"""
-        try:
+        if key in self.__cached_data:
             return self.__cached_data[key]
-        except Exception:
-            raise KeyError(f"Key {key} not found")
+        return None
 
 
 # singleton pattern

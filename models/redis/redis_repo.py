@@ -17,7 +17,9 @@ class RedisRepository:
 
     def get(self, key: str) -> Any:
         """Get value of the given key"""
-        return self.__redis_connection.get(key).decode('utf-8')
+        value = self.__redis_connection.get(key).decode('utf-8')
+        if value:
+            return value.decode('utf-8')
 
     def delete(self, key: str) -> None:
         """Delete the key-value pair"""
@@ -33,7 +35,9 @@ class RedisRepository:
 
     def hash_get(self, key: str, field: str) -> Any:
         """Get the value of a field from the key-object"""
-        return self.__redis_connection.hget(key, field)
+        value = self.__redis_connection.hget(key, field)
+        if value:
+            return value.decode('utf-8')
 
     def hash_delete(self, key: str, field: str) -> None:
         """Delete the specific field from the key-object"""
