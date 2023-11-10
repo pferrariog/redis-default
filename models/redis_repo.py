@@ -9,9 +9,11 @@ class RedisRepository:
         """Initializer"""
         self.__redis_connection = redis_connection
 
-    def insert(self, key: str, value: Any) -> None:
+    def insert(self, key: str, value: Any, expiration: int | None = None) -> None:
         """Insert a given key-value pair"""
         self.__redis_connection.set(key, value)
+        if expiration:
+            self.__redis_connection.expire(key, expiration)
 
     def get(self, key: str) -> Any:
         """Get value of the given key"""
@@ -23,9 +25,11 @@ class RedisRepository:
         if delete == 0:
             raise Exception(f"Error while deleting {key}")
 
-    def hash_insert(self, key: str, field: str, value: any) -> None:
+    def hash_insert(self, key: str, field: str, value: Any, expiration: int | None = None) -> None:
         """Insert a key-object pair"""
         self.__redis_connection.hset(key, field, value)
+        if expiration:
+            self.__redis_connection.expire(key, expiration)
 
     def hash_get(self, key: str, field: str) -> Any:
         """Get the value of a field from the key-object"""
@@ -36,3 +40,4 @@ class RedisRepository:
         delete = self.__redis_connection.hdel(key, field)
         if delete == 0:
             raise Exception(f"Error while deleting {key}")
+  
